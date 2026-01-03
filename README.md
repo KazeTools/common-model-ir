@@ -366,6 +366,9 @@ unknown:
   b             # バイアス
   sigma         # 観測ノイズの標準偏差
 
+  # 予測したい入力
+  x@pred[i,d]  : real
+
 define:
   # 線形予測値（決定論的）
   mu[i] = sum_d x@train[i,d] * w[d] + b
@@ -381,6 +384,7 @@ rules:
 want:
   # データに合わせてパラメータを推定
   fit w, b, sigma
+  predict y@pred
 ```
 
 ```yaml
@@ -638,7 +642,7 @@ want:
   # 最適化目的
   # ==========================================================
 
-  optimize sum_n r(x_col[n], t_col[n])^2
+  optimize min sum_n r(x_col[n], t_col[n])^2
   # コロケーション点集合における
   # PDE 残差の二乗和を最小化
 ```
